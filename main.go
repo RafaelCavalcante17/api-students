@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -16,18 +17,43 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/students", getStudants)
-	e.GET("/teachers", getTeachers)
+	e.GET("/students", getStudents)
+	e.GET("/students", createStudent)
+	e.GET("/students/:id", getStudent)
+	e.PUT("/students/:id", updateStudent)
+	e.DELETE("/students/:id", deleteStudent)
+
+	//- Post /students - Create student
+	//- GET /students/:id - get infos from a specific student
+	//- PUT /students/:id - Update student
+	//- DELETE /students/:id - Delete student
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
 // Handler
-func getStudants(c echo.Context) error {
+func getStudents(c echo.Context) error {
 	return c.String(http.StatusOK, "List of all students")
 }
 
-func getTeachers(c echo.Context) error {
-	return c.String(http.StatusOK, "List of all teachers")
+func createStudent(c echo.Context) error {
+	return c.String(http.StatusOK, "Create student")
+}
+
+func getStudent(c echo.Context) error {
+	id := c.Param("id")
+	getStud := fmt.Sprintf("Get %s students", id)
+	return c.String(http.StatusOK, getStud)
+}
+func updateStudent(c echo.Context) error {
+	id := c.Param("id")
+	UpdateStud := fmt.Sprintf("Update %s students", id)
+	return c.String(http.StatusOK, UpdateStud)
+}
+
+func deleteStudent(c echo.Context) error {
+	id := c.Param("id")
+	deleteStud := fmt.Sprintf("Delte %s students", id)
+	return c.String(http.StatusOK, deleteStud)
 }
