@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/RafaelCavalcante17/api-students/db"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -18,7 +20,7 @@ func main() {
 
 	// Routes
 	e.GET("/students", getStudents)
-	e.GET("/students", createStudent)
+	e.POST("/students", createStudent)
 	e.GET("/students/:id", getStudent)
 	e.PUT("/students/:id", updateStudent)
 	e.DELETE("/students/:id", deleteStudent)
@@ -38,6 +40,7 @@ func getStudents(c echo.Context) error {
 }
 
 func createStudent(c echo.Context) error {
+	db.AddStudent()
 	return c.String(http.StatusOK, "Create student")
 }
 
