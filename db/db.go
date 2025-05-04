@@ -22,7 +22,7 @@ type Student struct {
 func Init() *gorm.DB {
 	db, err := gorm.Open(sqlite.Open("student.db"), &gorm.Config{})
 	if err != nil {
-		log.Fatal().Err(err).Msgf("Failed to initialize SqLite: %s", err.Error())
+		log.Fatal().Err(err).Msgf("Failed to initialize SQLite: %s", err.Error())
 	}
 
 	db.AutoMigrate(&Student{})
@@ -44,9 +44,8 @@ func (s *StudentHandler) AddStudent(student Student) error {
 	return nil
 }
 
-func (s *StudentHandler) GetStudents() ([]Student, error) {
-	students := []Student{}
-	err := s.DB.Find(&students).Error
-	return students, err
-
+func (s *StudentHandler) GetStudent(id int) (Student, error) {
+	var student Student
+	err := s.DB.First(&student, id)
+	return student, err.Error
 }
